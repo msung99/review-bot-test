@@ -1,0 +1,28 @@
+name: Pull Request Code Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  code-review:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "20"
+
+      - name: Pull Request Code Review Bot
+        uses: kakaotech-25/Hackerton-PR-Review@v1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          api-key: ${{secrets.ANTHROPIC_API_KEY}}
+
+      - name: Post Review Results
+        run: |
+          echo "Code review completed!"
